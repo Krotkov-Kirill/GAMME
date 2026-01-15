@@ -169,63 +169,7 @@ public class CollisionHandler implements ContactListener {
     }
 
     @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-        // Fix player floating on platforms
-        Fixture a = contact.getFixtureA();
-        Fixture b = contact.getFixtureB();
-        
-        if (a == null || b == null) {
-            return;
-        }
-        
-        Object ua = a.getUserData();
-        Object ub = b.getUserData();
-        
-        if (ua == null || ub == null) {
-            return;
-        }
-        
-        // Check if player is in contact with a platform
-        if (ua instanceof Player && ub instanceof Platform) {
-            adjustPlayerOnPlatform((Player) ua, (Platform) ub, contact);
-        } else if (ub instanceof Player && ua instanceof Platform) {
-            adjustPlayerOnPlatform((Player) ub, (Platform) ua, contact);
-        }
-    }
-    
-    private void adjustPlayerOnPlatform(Player player, Platform platform, Contact contact) {
-        if (player.getBody() == null || platform.getBody() == null) {
-            return;
-        }
-        
-        Vector2 playerPos = player.getBody().getPosition();
-        Vector2 platformPos = platform.getBody().getPosition();
-        
-        // Get platform bounds
-        float platformTop = platformPos.y + platform.height / 2f;
-        
-        // Player's bottom should be at platform's top
-        float playerBottom = playerPos.y - 0.6f; // 0.6f is player's half-height
-        
-        // Only adjust if player is standing on platform (not jumping up)
-        Vector2 playerVel = player.getBody().getLinearVelocity();
-        
-        // Check if player is on top of platform and not moving upward
-        if (playerBottom >= platformTop - 0.05f && playerBottom <= platformTop + 0.15f && playerVel.y <= 0.2f) {
-            // Adjust player position to sit properly on platform (small correction only)
-            float targetY = platformTop + 0.6f;
-            float diff = targetY - playerPos.y;
-            
-            // Only make small corrections to prevent floating, but allow normal physics
-            if (diff > 0.02f && diff < 0.1f) {
-                player.getBody().setTransform(playerPos.x, targetY, 0);
-                // Stop small downward velocity when landing
-                if (playerVel.y < 0 && playerVel.y > -0.5f) {
-                    player.getBody().setLinearVelocity(playerVel.x, 0);
-                }
-            }
-        }
-    }
+    public void preSolve(Contact contact, Manifold oldManifold) { }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) { }

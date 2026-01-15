@@ -22,7 +22,10 @@ public class Platform extends Entity {
         fix.shape = shape;
         fix.friction = friction;
         fix.filter.categoryBits = Constants.CATEGORY_ENV;
-        fix.filter.maskBits = Constants.CATEGORY_PLAYER;
+        fix.filter.maskBits = (short) (
+                Constants.CATEGORY_PLAYER |
+                        Constants.CATEGORY_DANGER // чтобы враги сталкивались с платформой
+        );
 
         body.createFixture(fix).setUserData(this);
         shape.dispose();

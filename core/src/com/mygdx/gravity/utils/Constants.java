@@ -4,7 +4,8 @@ public final class Constants {
     private Constants() {}
 
     public static final float WORLD_GRAVITY = 9.8f;
-    public static final float PLAYER_JUMP_FORCE = 5.5f;
+    // Увеличили силу прыжка, чтобы игрок мог перепрыгивать более широкие ямы на уровнях 2–5
+    public static final float PLAYER_JUMP_FORCE = 7.0f;
     public static final float TIME_SLOW_SCALE = 0.5f;
 
     public static final float PPM = 100f; // pixels per meter

@@ -102,23 +102,24 @@ public class GameScreen extends ScreenAdapter {
         pauseStage = new Stage(new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT), game.batch);
         Gdx.input.setInputProcessor(uiStage);
 
-        // UI Buttons (Left, Right, Jump, Pause)
-        Table uiTable = new Table();
-        uiTable.setFillParent(true);
-        
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.font;
         style.fontColor = Color.WHITE;
 
+        // Кнопки движения слева
         TextButton leftBtn = new TextButton("LEFT", style);
         TextButton rightBtn = new TextButton("RIGHT", style);
+        
+        // Кнопка прыжка справа
         TextButton jumpBtn = new TextButton("JUMP", style);
+        
+        // Кнопка паузы в правом верхнем углу
         TextButton pauseBtn = new TextButton("PAUSE", style);
 
         leftBtn.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (player != null) player.setMoveLeft(true);
+                if (player != null && !isPaused) player.setMoveLeft(true);
                 return true;
             }
             @Override
@@ -130,7 +131,7 @@ public class GameScreen extends ScreenAdapter {
         rightBtn.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (player != null) player.setMoveRight(true);
+                if (player != null && !isPaused) player.setMoveRight(true);
                 return true;
             }
             @Override
@@ -142,7 +143,7 @@ public class GameScreen extends ScreenAdapter {
         jumpBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (player != null) player.requestJump();
+                if (player != null && !isPaused) player.requestJump();
             }
         });
 
@@ -153,19 +154,27 @@ public class GameScreen extends ScreenAdapter {
             }
         });
 
-        // Layout: Left part (L, R), Right part (Jump), Top part (Pause)
-        uiTable.left().bottom();
-        uiTable.add(leftBtn).size(100, 80).pad(20);
-        uiTable.add(rightBtn).size(100, 80).pad(20);
-        uiTable.add().expandX();
-        uiTable.add(jumpBtn).size(100, 80).pad(20);
+        // Левая часть: 2 кнопки движения внизу слева
+        Table leftTable = new Table();
+        leftTable.setFillParent(true);
+        leftTable.bottom().left();
+        leftTable.add(leftBtn).size(80, 80).pad(15);
+        leftTable.add(rightBtn).size(80, 80).pad(15);
         
+        // Правая часть: кнопка прыжка внизу справа
+        Table rightTable = new Table();
+        rightTable.setFillParent(true);
+        rightTable.bottom().right();
+        rightTable.add(jumpBtn).size(100, 80).pad(15);
+        
+        // Верхняя часть: кнопка паузы в правом верхнем углу
         Table topTable = new Table();
         topTable.setFillParent(true);
         topTable.top().right();
-        topTable.add(pauseBtn).size(80, 40).pad(10);
+        topTable.add(pauseBtn).size(60, 50).pad(10);
 
-        uiStage.addActor(uiTable);
+        uiStage.addActor(leftTable);
+        uiStage.addActor(rightTable);
         uiStage.addActor(topTable);
 
         // Pause Menu
