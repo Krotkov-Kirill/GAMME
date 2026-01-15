@@ -62,7 +62,7 @@ public class MenuScreen extends ScreenAdapter {
         game.batch.begin();
         
         // Draw title
-        String title = "Gravity Platformer";
+        String title = "Pixel Jump";
         GlyphLayout titleLayout = new GlyphLayout(titleFont, title);
         titleFont.draw(game.batch, title, 
             (Constants.V_WIDTH - titleLayout.width) / 2f, 
@@ -70,7 +70,6 @@ public class MenuScreen extends ScreenAdapter {
         
         // Draw buttons
         drawButton("Play", Constants.V_WIDTH / 2f, playButtonY, selectedButton == 0);
-        drawButton("Settings", Constants.V_WIDTH / 2f, settingsButtonY, selectedButton == 1);
         drawButton("Exit", Constants.V_WIDTH / 2f, exitButtonY, selectedButton == 2);
         
         game.batch.end();

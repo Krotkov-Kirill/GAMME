@@ -14,12 +14,16 @@ android {
         }
 
     }
+    dependencies {
+        implementation 'androidx.multidex:multidex:2.0.1'
+    }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
         applicationId "com.mygdx.game"
-        minSdkVersion 19
+        minSdkVersion 21
+        multiDexEnabled true
         targetSdkVersion 35
         versionCode 1
         versionName "1.0"
